@@ -2,11 +2,13 @@
 
 import styles from './page.module.css';
 import {useState, useEffect} from "react"
-import MyButton from './MyButton';
 
 export default function MyApp () {
   const [count, setCount] = useState(20)
   const [svgContent, setSvgContent] = useState("")
+  const [data, setData] = useState({})
+  const [description, setDescription] = useState("placeholder")
+  const [date, setDate] = useState("description")
     
   useEffect(() => {
     fetch("/thailand.svg")
@@ -15,15 +17,22 @@ export default function MyApp () {
     .catch((err) => console.error("Error loading SVG:", err))
   })
 
-  function handleClick () {
-      setCount(count+1);
-  }
+  useEffect(() => {
+    fetch('/data.json')
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((err) => console.error("Error loading JSON:", err));
+  });
 
   function handleLocationClick (event) {
     const target = event.target
     if (target.tagName === "path") {
       const provinceName = target.getAttribute("name") || "Unknown"
       console.log("Clicked on province:", provinceName)
+      
+      setDescription(data[provinceName].description)
+      setDate(data[provinceName].date)
+
       if (target.classList.contains(styles.selectedProvince)) {
         target.classList.add(styles.deselectedProvince);
         target.classList.remove(styles.selectedProvince);
@@ -41,10 +50,8 @@ export default function MyApp () {
       dangerouslySetInnerHTML={{ __html: svgContent}}
       onClick={handleLocationClick}
     ></div>
-    <div className={styles.div}>
-      <MyButton count={count} handleClick={handleClick}/>
-    </div>
-      <MyButton count={count} handleClick={handleClick}/>
+    <div>{description}</div>
+    <div>{date}</div>
     </>
   )
 }
