@@ -1,0 +1,15 @@
+{
+    "Bangkok": {
+      "description": "Capital city of Thailand",
+      "date": "2024-12-01"
+    },
+    "Chiang Mai": {
+      "description": "Popular tourist destination in the north",
+      "date": "2024-12-05"
+    },
+    "Phuket": {
+      "description": "Known for beaches and resorts",
+      "date": "2024-12-07"
+    }
+  }
+  
